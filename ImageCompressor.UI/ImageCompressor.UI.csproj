@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Authors>Vasu Kotadiya</Authors>
+    <Product />
+    <AssemblyVersion>0.5.0.1</AssemblyVersion>
+    <FileVersion>0.5.0.2</FileVersion>
+    <PackageIcon>compression.png</PackageIcon>
+    <ApplicationIcon>compression.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="compression.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\..\Downloads\compression.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ImageCompressorDemo\ImageCompressorDemo.csproj" />
+  </ItemGroup>
+
+</Project>

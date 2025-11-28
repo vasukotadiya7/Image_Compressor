@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageCompressorDemo", "Imag
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompressionService", "CompressionService\CompressionService.csproj", "{BF6657DF-E4FB-314A-C690-7033368DA2A7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageCompressor.UI", "ImageCompressor.UI\ImageCompressor.UI.csproj", "{210D7855-D1C5-710D-C253-FBA3CAAC3244}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,14 @@ Global
 		{BF6657DF-E4FB-314A-C690-7033368DA2A7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BF6657DF-E4FB-314A-C690-7033368DA2A7}.Release|x86.ActiveCfg = Release|Any CPU
 		{BF6657DF-E4FB-314A-C690-7033368DA2A7}.Release|x86.Build.0 = Release|Any CPU
+		{210D7855-D1C5-710D-C253-FBA3CAAC3244}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{210D7855-D1C5-710D-C253-FBA3CAAC3244}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{210D7855-D1C5-710D-C253-FBA3CAAC3244}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{210D7855-D1C5-710D-C253-FBA3CAAC3244}.Debug|x86.Build.0 = Debug|Any CPU
+		{210D7855-D1C5-710D-C253-FBA3CAAC3244}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{210D7855-D1C5-710D-C253-FBA3CAAC3244}.Release|Any CPU.Build.0 = Release|Any CPU
+		{210D7855-D1C5-710D-C253-FBA3CAAC3244}.Release|x86.ActiveCfg = Release|Any CPU
+		{210D7855-D1C5-710D-C253-FBA3CAAC3244}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
