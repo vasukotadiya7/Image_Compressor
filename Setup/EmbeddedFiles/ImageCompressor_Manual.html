@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Image Compressor — Quick Start & User Guide</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body { font-family: "Segoe UI", Roboto, Arial, sans-serif; color:#1f2937; margin:0; padding:0; background:#f6f8fa; }
+    .header { background: linear-gradient(90deg,#0ea5e9,#3730a3); color:white; padding:28px 36px; display:flex; align-items:center; gap:20px; }
+    .logo { width:72px; height:72px; border-radius:8px; background:#fff; display:flex; align-items:center; justify-content:center; overflow:hidden; box-shadow:0 4px 18px rgba(2,6,23,.12);}
+    .logo img { width:100%; height:100%; object-fit:contain; }
+    .title { font-size:20px; margin:0 0 4px 0; }
+    .subtitle { margin:0; opacity:0.9; font-size:13px; }
+    .container { max-width:980px; margin:26px auto; background:white; padding:22px; border-radius:10px; box-shadow:0 6px 24px rgba(2,6,23,.06);}
+    h2 { color:#0f172a; margin-top:18px; }
+    p { line-height:1.55; color:#374151; }
+    pre { background:#0f172a; color:#e6eef8; padding:12px; border-radius:6px; overflow:auto; }
+    ul { margin-left:18px; }
+    .step { border-left:4px solid #0ea5e9; padding:12px 14px; margin:12px 0; border-radius:6px; background:#f8fafc; }
+    .kbd { background:#111827; color:#fff; padding:2px 8px; border-radius:6px; font-size:12px; }
+    .footer { text-align:center; font-size:13px; color:#6b7280; margin-top:18px; }
+    .actions { display:flex; gap:8px; flex-wrap:wrap; }
+    .note { background:#fffbeb; border:1px solid #fcefc7; padding:10px; border-radius:6px; color:#92400e; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">
+      <img src="file:///mnt/data/9e1d064d-0216-4ce3-8026-f2a6b7f6d1da.png" alt="Logo" />
+    </div>
+    <div>
+      <h1 class="title">Image Compressor</h1>
+      <p class="subtitle">Quick Start Guide — compress, convert and save JPEGs with one right‑click.</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <h2>Introduction</h2>
+    <p>
+      Image Compressor reduces JPEG image size while keeping acceptable visual quality.  
+      The installer adds a convenient context-menu entry so you can compress any supported image directly from File Explorer.
+    </p>
+
+    <h2>Quick Start — Compress a single image</h2>
+    <div class="step">
+      <strong>1. Right‑click</strong> the image file (supported extensions: <code>.jpg</code>, <code>.jpeg</code>, <code>.png</code>, <code>.bmp</code>, <code>.webp</code>).
+    </div>
+    <div class="step">
+      <strong>2. Choose</strong> <em>Compress Image</em> from the context menu.
+    </div>
+    <div class="step">
+      <strong>3. Enter target</strong> size (KB) or Quality (%) in the popup and click <strong>Compress</strong>.
+    </div>
+    <div class="step">
+      <strong>4. Result</strong> will be saved beside the original with a suffix like <code>_compressed.jpg</code>. Output format is always JPEG.
+    </div>
+
+    <h2>Installer / UI overview</h2>
+    <p>The installer shows a classic wizard (Welcome → Destination → Progress → Finish). During installation the following steps run:</p>
+    <ul>
+      <li>Files copied to the selected install folder (default: <code>%ProgramFiles%\ImageCompressor</code>).</li>
+      <li>Windows service installed and started (background processor for queued tasks).</li>
+      <li>Context‑menu registry entries created for supported image types.</li>
+      <li>Uninstall entry is registered so you can remove the app from Add/Remove Programs.</li>
+    </ul>
+
+    <h2>UI Fields (what each one means)</h2>
+    <ul>
+      <li><strong>File Path</strong> — The path of the image that will be compressed.</li>
+      <li><strong>Width / Height</strong> — Optional target dimensions (pixels). Maintain aspect ratio if only one is set.</li>
+      <li><strong>Quality</strong> — JPEG quality scale 1–100 (higher means better quality and larger file).</li>
+      <li><strong>Target Size</strong> — Desired maximum file size (KB). Binary search algorithm reduces quality until size matches.</li>
+    </ul>
+
+    <h2>Troubleshooting</h2>
+    <p class="note"><strong>Installer fails with 0x80070652?</strong> This happens when another MSI is running (Windows Installer lock). Close other installers and retry. The bootstrapper will wait for the MSI engine to free itself before installing runtimes.</p>
+
+    <h3>Common issues</h3>
+    <ul>
+      <li><strong>Context menu not visible in Windows 11?</strong> The installer creates both classic and modern registry keys. Try restarting File Explorer or signing out/in.</li>
+      <li><strong>Output file not JPEG?</strong> All outputs are forced to JPEG. If conversion fails, installer keeps a temp copy and logs the error.</li>
+      <li><strong>Service won't start?</strong> Check Windows Event Viewer for permission issues and ensure the service EXE exists in the install folder.</li>
+    </ul>
+
+    <h2>Advanced</h2>
+    <p>If you want headless automation or bulk operations, the installed worker exposes a local HTTP API (on a configured port). You can POST an image path and compression parameters to the service endpoint.</p>
+
+    <h2>Uninstall / Repair</h2>
+    <p>To uninstall or repair, open Add/Remove Programs or run the provided <code>Uninstaller.exe</code> from the install folder. Repair re-copies files and re-registers the service.</p>
+
+    <h2>Privacy & Safety</h2>
+    <p>The tool processes images locally and does not upload content anywhere. Logs are stored under <code>%ProgramData%\ImageCompressor</code> for debugging only.</p>
+
+    <div style="margin-top:18px;">
+      <strong>Support:</strong> For bugs or feature requests, share details (OS version, steps to reproduce, installer log) with the developer.
+    </div>
+
+    <div class="footer">
+      <p>Thank you for using Image Compressor — efficient compression, simple workflow.</p>
+      <p>Version 1.0 • © Your Company</p>
+    </div>
+  </div>
+</body>
+</html>
