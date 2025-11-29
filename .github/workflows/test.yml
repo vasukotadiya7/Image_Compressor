@@ -14,16 +14,12 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
 
-    # Install the .NET Core workload
     - name: Install .NET Core
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
 
-    # Publish Bootstrapper (Final installer exe)
     - name: Publish Bootstrapper Installer
       run: |
         dotnet publish Installer/Installer.csproj `
@@ -37,23 +33,11 @@ jobs:
       run: |
           ren publish_output\Installer.exe ImageCompressor_Setup.exe
 
-   # Upload as GitHub Release Asset
     - name: Upload Release Installer
       uses: softprops/action-gh-release@v1
       with:
         files: |
           publish_output/ImageCompressor_Setup.exe
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
-    
-    # # Remove the pfx
-    # - name: Remove the pfx
-    #   run: Remove-Item -path $env:Wap_Project_Directory\GitHubActionsWorkflow.pfx
-
-    # # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
-    # - name: Upload build artifacts
-    #   uses: actions/upload-artifact@v4
-    #   with:
-    #     name: MSIX Package
-    #     path: ${{ env.Wap_Project_Directory }}\AppPackages
