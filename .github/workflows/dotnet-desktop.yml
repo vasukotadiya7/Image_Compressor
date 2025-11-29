@@ -36,7 +36,7 @@ jobs:
     - name: Upload Release Installer
       uses: softprops/action-gh-release@v1
       with:
-        files: |
-          publish_output/ImageCompressor_Setup_x64.exe
+        name: "Image Compressor Release - ${{ github.ref_name }}"
+        files: publish_output/ImageCompressor_Setup_x64.exe
       env:
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
