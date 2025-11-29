@@ -130,7 +130,7 @@ namespace Setup
         {
             try
             {
-                return Convert.ToString(Registry.LocalMachine.OpenSubKey(registryKeyPath).GetValue("InstallationPath"));
+                return Convert.ToString(Registry.LocalMachine.OpenSubKey(registryKeyPath)?.GetValue("InstallationPath"));
             }
             catch (Exception ex)
             {

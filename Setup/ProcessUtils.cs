@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Reflection;
 using System.Security.Principal;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Setup
 {
@@ -52,7 +47,7 @@ namespace Setup
             if (process.ExitCode != 0)
                 throw new Exception($"Process {fileName} exited with code {process.ExitCode}");
         }
-        public static bool ExtractAllResources(string outputFolder)
+        public static bool ExtractAllResources(List<string> resName, string outputFolder)
         {
             bool isSuccess = false;
             try
@@ -60,17 +55,15 @@ namespace Setup
                 Directory.CreateDirectory(outputFolder);
 
                 var asm = Assembly.GetExecutingAssembly();
-                foreach (var res in asm.GetManifestResourceNames())
+                foreach (string res in resName)
                 {
-                    if (!res.Contains("EmbeddedFiles")) continue;
-
-                    using var stream = asm.GetManifestResourceStream(res);
-                    if (stream == null) continue;
-
-                    string relative = res.Substring(res.IndexOf("EmbeddedFiles.") + "EmbeddedFiles.".Length);
-                    string fileName = relative.Replace('/', '\\');   // support subfolders
-
-                    string filePath = Path.Combine(outputFolder, fileName);
+                    using var stream = asm.GetManifestResourceStream("Setup.EmbeddedFiles." + res);
+                    if (stream == null)
+                    {
+                        Logger.Log($"Resource File Not Found From Manifest ({res})");
+                        return isSuccess;
+                    }
+                    string filePath = Path.Combine(outputFolder, res);
 
                     Directory.CreateDirectory(Path.GetDirectoryName(filePath));
                     using var outStream = File.Create(filePath);

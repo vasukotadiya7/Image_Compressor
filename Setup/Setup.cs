@@ -8,8 +8,17 @@
         Progress,
         Finish
     }
+
     public partial class Setup : Form
     {
+        public List<string> resourceNames = new List<string>()
+        {
+            "CompressionService.exe",
+            "ImageCompressor.UI.exe",
+            "ImageCompressor_Manual.html",
+            "web.config",
+        };
+
         private CancellationTokenSource cts = new CancellationTokenSource();
         private SetupScreen currentScreen = SetupScreen.Welcome;
         private readonly RegistryManager registryManager;
@@ -294,26 +303,38 @@
         {
             await Task.Delay(10, token);
             lblStage.Text = "Copying files...";
-            if (!ProcessUtils.ExtractAllResources(installDir))
+            if (!ProcessUtils.ExtractAllResources(resourceNames, installDir))
+            {
                 Rollback();
+                return;
+            }
             progress.Value = 20;
 
             await Task.Delay(10, token);
             lblStage.Text = "Registering service...";
             if (!serviceManager.RegisterService(installDir))
+            {
                 Rollback();
+                return;
+            }
             progress.Value = 40;
 
             await Task.Delay(10, token);
             lblStage.Text = "Starting service...";
             if (!serviceManager.StartService())
+            {
                 Rollback();
+                return;
+            }
             progress.Value = 60;
 
             await Task.Delay(10, token);
             lblStage.Text = "Writing registry entries...";
             if (!registryManager.Register(installDir))
+            {
                 Rollback();
+                return;
+            }
             progress.Value = 80;
 
             await Task.Delay(100, token);
@@ -329,25 +350,37 @@
             await Task.Delay(1000);
             lblStage.Text = "Stopping service...";
             if (!serviceManager.StopService())
+            {
                 Rollback();
+                return;
+            }
             progress.Value = 20;
 
             await Task.Delay(1500);
             lblStage.Text = "Removing service...";
             if (!serviceManager.RemoveService())
+            {
                 Rollback();
+                return;
+            }
             progress.Value = 40;
 
             await Task.Delay(1000);
             lblStage.Text = "Deleting registry entries...";
             if (!registryManager.Unregister())
+            {
                 Rollback();
+                return;
+            }
             progress.Value = 60;
 
             await Task.Delay(1000);
             lblStage.Text = "Deleting files...";
             if (!ProcessUtils.DeleteAppFiles(installDir))
+            {
                 Rollback();
+                return;
+            }
             progress.Value = 80;
 
             await Task.Delay(100);
@@ -365,25 +398,37 @@
             await Task.Delay(10, token);
             lblStage.Text = "Stopping service...";
             if (!serviceManager.StopService())
+            {
                 Rollback();
+                return;
+            }
             progress.Value = 20;
 
             await Task.Delay(10, token);
             lblStage.Text = "Copying files...";
-            if (!ProcessUtils.ExtractAllResources(installDir))
+            if (!ProcessUtils.ExtractAllResources(resourceNames, installDir))
+            {
                 Rollback();
+                return;
+            }
             progress.Value = 40;
 
             await Task.Delay(10, token);
             lblStage.Text = "Starting service...";
             if (!serviceManager.StartService())
+            {
                 Rollback();
+                return;
+            }
             progress.Value = 60;
 
             await Task.Delay(10, token);
             lblStage.Text = "Writing registry entries...";
             if (!registryManager.Register(installDir))
+            {
                 Rollback();
+                return;
+            }
             progress.Value = 80;
 
             await Task.Delay(100, token);
@@ -401,8 +446,10 @@
             finalLabel = "Error Ouccured!!!";
             cts.Cancel();
             LoadScreen(SetupScreen.Finish);
+            chkManual.Visible = false;
             btnCancel.Text = "Close";
             btnCancel.Enabled = true;
+            return;
         }
     }
 }
