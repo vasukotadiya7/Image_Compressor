@@ -31,19 +31,32 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
-    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
-    - name: Setup MSBuild.exe
-      uses: microsoft/setup-msbuild@v2
+    # Restore solution
+    - name: Restore dependencies
+      run: dotnet restore
 
-    # Execute all unit tests in the solution
-    - name: Execute unit tests
-      run: dotnet --list-runtimes
+    # Publish Bootstrapper (Final installer exe)
+    - name: Publish Bootstrapper Installer
+      run: |
+        dotnet publish Installer/Installer.csproj `
+           -c Release `
+           -r win-x64 `
+           -p:PublishSingleFile=true `
+           --self-contained false `
+           -o publish_output
 
-    # Restore the application to populate the obj folder with RuntimeIdentifiers
-    - name: Restore the application
-      run: msbuild $env:Solution_Name /t:Restore /p:Configuration=$env:Configuration
+    - name: Rename output installer
+      run: |
+          ren publish_output\Installer.exe ImageCompressor_Setup.exe
+
+   # Upload as GitHub Release Asset
+    - name: Upload Release Installer
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          publish_output/ImageCompressor_Setup.exe
       env:
-        Configuration: ${{ matrix.configuration }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     
     # # Remove the pfx
