@@ -31,7 +31,7 @@ jobs:
 
     - name: Rename output installer
       run: |
-          ren publish_output\Installer.exe ImageCompressor_Setup.exe
+          ren publish_output\Installer.exe ImageCompressor_Setup_x64.exe
 
     - name: Upload Release Installer
       uses: softprops/action-gh-release@v1
