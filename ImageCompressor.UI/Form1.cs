@@ -1,11 +1,6 @@
 ﻿using ImageCompressorDemo;
-using System;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
+using System.ServiceProcess;
 using System.Text.Json;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace ImageCompressor.UI
 {
@@ -159,6 +154,24 @@ namespace ImageCompressor.UI
                 var json = JsonSerializer.Serialize(requestData);
                 var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
                 HttpResponseMessage response = null;
+
+                try
+                {
+                    ServiceController sc = new ServiceController("ImageCompressorWorkerService");
+                    if (sc.Status != ServiceControllerStatus.Running)
+                    {
+                        sc.Start();
+                        sc.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(30));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    btnCompress.Enabled = true;
+                    btnCancel.Enabled = true;
+                    return;
+                }
+                //TODO : Make API Call If Service Not Exists
                 using (var client = new HttpClient())
                 {
                     response = await client.PostAsync("http://localhost:21922/api/ImageCompression/Compress", content);
